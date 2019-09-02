@@ -1,0 +1,9 @@
+version: '2'
+services: 
+  gin-web:
+    build: .
+    image: renegmedal/ecommerce-frontend:1.0.1
+    environment: 
+    - PORT=8282
+    ports: 
+    - "8282:8080"

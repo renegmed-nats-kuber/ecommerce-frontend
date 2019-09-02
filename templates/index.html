@@ -1,0 +1,41 @@
+
+
+<html>
+ 
+<head> 
+    <title>{{ .title }}</title>  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head> 
+<body> 
+    <div class="container"> 
+        <div>
+            <h3>NATS Front-end</h3> 
+        </div>
+        <form class="form-horizontal" method="post">
+
+            <section>
+    
+                <div class="col-md-6"> 
+                    <label for="topic">Topic</label> 
+                    <div>
+                        <select name="topic" id="topic" class="browser-default custom-select app-input" >
+                        <option value="sales">Sales</option>
+                        <option value="discount">Sales discount</option>  
+                        <option value="clearance">Clearance sales</option>  
+                        </select>
+                    </div>    
+                </div> 
+            </section>
+            <section>
+                <textarea id="text-message" name="text-message" cols="50" rows="20" class="app-textarea"></textarea>  
+            </section>
+
+            <div class="row">    
+                <div class="col-md-12">     
+                    <button type="submit" class="btn btn-primary btn-sm btn-style" id="submit-btn" name="submit-btn" value="default">Submit</button>            
+                </div>
+            </div>        
+        </form>
+    </div>                
+</body>  
+</html>
