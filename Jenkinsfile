@@ -8,30 +8,40 @@ pipeline {
 
      SERVICE_NAME = "ecommerce-frontend"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_ID}"
-     registryCredential = ‘DockerHub’
+     dockerImage = ''
    }
 
    stages {
       stage('Preparation') {
          steps {
             cleanWs()
-            git credentialsId: 'GitHub', url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}"
+            //git credentialsId: 'GitHub', url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}"
+            checkout scm
          }
       }
-      stage('Build') {
+      stage('Build image') {
          steps {
-           sh 'go mod vendor' 
-	   sh 'docker image build -t ${REPOSITORY_TAG} .'
+            sh 'go mod vendor' 
+	         //sh 'docker image build -t ${REPOSITORY_TAG} .'
+            script {
+              dockerImage = docker.build REPOSITORY_TAG
+            }
          }
       }
 
       stage('Push Image') {
          steps {
            // sh 'docker push ${REPOSITORY_TAG} .'
-           docker.withRegistry('https://registry.hub.docker.com/v2', 'DockerHub') {
-             app.push("${env.BUILD_ID}")           
+           docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
+             dockerImage.push()
+             dockerImage.push("latest")           
+	      } 
+      }
 
-	 }
+      stage('Remove Unused docker image') {
+        steps {
+          sh "docker rmi ${REPOSITORY_TAG}"
+        }
       }
 
       stage('Deploy to Cluster') {
