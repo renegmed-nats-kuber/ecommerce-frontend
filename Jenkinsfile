@@ -6,9 +6,9 @@ pipeline {
      // ORGANIZATION_NAME
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
-     // YOUR_DOCKERHUB_USERNAME = "renegmedal"     
      SERVICE_NAME = "ecommerce-frontend"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_ID}"
+     registryCredential = ‘DockerHub’
    }
 
    stages {
@@ -27,7 +27,10 @@ pipeline {
 
       stage('Push Image') {
          steps {
-           sh 'docker push ${REPOSITORY_TAG} .'
+           // sh 'docker push ${REPOSITORY_TAG} .'
+           docker.withRegistry('https://registry.hub.docker.com/v2', 'DockerHub') {
+             app.push("${env.BUILD_ID}")           
+
 	 }
       }
 
