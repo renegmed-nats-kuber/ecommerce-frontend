@@ -8,7 +8,7 @@ pipeline {
 
      SERVICE_NAME = "ecommerce-frontend"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_ID}"
-     dockerImage = ''
+     dockerImage = ""
    }
 
    stages {
@@ -19,6 +19,7 @@ pipeline {
             checkout scm
          }
       }
+
       stage('Build image') {
          steps {
             sh 'go mod vendor' 
@@ -32,9 +33,10 @@ pipeline {
       stage('Push Image') {
          steps {
            // sh 'docker push ${REPOSITORY_TAG} .'
-           docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
-             dockerImage.push()
-             dockerImage.push("latest")           
+            docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
+               dockerImage.push()
+               dockerImage.push("latest")   
+            }         
 	      } 
       }
 
@@ -49,5 +51,7 @@ pipeline {
             sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml | kubectl apply -f -'
           }
       }
-   }
+
+   } // stages
+
 }
