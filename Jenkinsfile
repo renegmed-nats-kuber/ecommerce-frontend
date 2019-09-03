@@ -50,7 +50,8 @@ pipeline {
 
       stage('Deploy to Cluster') {
           steps {
-            sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml | kubectl apply -f -'
+            sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml'
+            sh 'kubectl apply -f .'
           }
       }
 
