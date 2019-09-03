@@ -32,10 +32,12 @@ pipeline {
 
       stage('Push Image') {
          steps {
-           // sh 'docker push ${REPOSITORY_TAG} .'
-            docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
-               dockerImage.push()
-               dockerImage.push("latest")   
+            script{
+              // sh 'docker push ${REPOSITORY_TAG} .'
+              docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
+                 dockerImage.push()
+                 dockerImage.push("latest")   
+              }
             }         
 	      } 
       }
