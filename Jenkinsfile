@@ -48,9 +48,15 @@ pipeline {
         }
       }
 
+      stage('Modify deploy file') {
+          steps {
+            sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml'            
+          }
+      }
+
       stage('Deploy to Cluster') {
           steps {
-            sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml'
+            //sh 'envsubst < ${WORKSPACE}/front-end-deploy.yaml'
             sh 'kubectl apply -f .'
           }
       }
