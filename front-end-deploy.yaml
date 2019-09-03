@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: renegmedal/${REPOSITORY_TAG}
+        image: ${REPOSITORY_TAG}
         ports:
         - name: http
           containerPort: 8080
